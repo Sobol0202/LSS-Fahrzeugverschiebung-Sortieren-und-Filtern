@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         LSS Fahrzeugverschiebung Sortieren und Filtern
-// @version      1.0
+// @version      1.1
 // @description  Sortiere und filtere die Tabelle zum Verschieben von Fahrzeugen
 // @author       MissSobol
 // @match        https://www.leitstellenspiel.de/vehicles/*/move
@@ -9,6 +9,9 @@
 
 (function() {
     'use strict';
+
+    // Setze diese Variable auf true, um die Tabelle schlanker zu machen
+    const modifyButtons = true;
 
     // Hilfsfunktion zum Sortieren der Tabellenzeilen
     function sortTable(table, colIndex, ascending) {
@@ -41,7 +44,17 @@
         });
     }
 
-    // Wähle die Tabelle und den Namens-Header aus
+    // Hilfsfunktion zum Hinzufügen der btn-xs Klasse zu Buttons
+    function modifyButtonClasses() {
+        const buttons = document.querySelectorAll('a.btn.btn-success');
+        buttons.forEach(button => {
+            if (!button.classList.contains('btn-xs')) {
+                button.classList.add('btn-xs');
+            }
+        });
+    }
+
+    // Wähle die Tabelle und den Namens-Header sofort aus
     const table = document.querySelector('table.table-striped.table');
     if (table) {
         const nameHeader = Array.from(table.querySelectorAll('th')).find(th => th.textContent.trim() === 'Name');
@@ -80,5 +93,10 @@
                 }
             });
         }
+    }
+
+    // Führe die Funktion zum Anpassen der Button-Klassen aus, wenn aktiviert
+    if (modifyButtons) {
+        modifyButtonClasses();
     }
 })();
